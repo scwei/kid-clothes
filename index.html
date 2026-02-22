@@ -931,12 +931,16 @@ let currentUploadedUrl = '';
 async function apiGet() {
   const res = await fetch(GAS_URL);
   const data = await res.json();
-  return data.map(p => ({
-    ...p,
-    sizes: Array.isArray(p.sizes)
-      ? p.sizes
-      : String(p.sizes || '').split(',').map(s => s.trim()).filter(s => s)
-  }));
+  return data.map(p => {
+    let sizes = [];
+    if (Array.isArray(p.sizes)) {
+      sizes = p.sizes.map(s => String(s).trim()).filter(s => s);
+    } else if (p.sizes) {
+      // 處理逗號、中文逗號、空格等各種分隔
+      sizes = String(p.sizes).split(/[,，\s]+/).map(s => s.trim()).filter(s => s);
+    }
+    return { ...p, sizes };
+  });
 }
 
 async function apiPost(body) {
@@ -1097,7 +1101,8 @@ function switchTab(name, btn) {
   });
   document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  if (name === 'add') { editingId = null; clearForm(); }
+  // 只有在「不是編輯模式」切到 add 時才清空表單
+  if (name === 'add' && !editingId) { clearForm(); }
 }
 
 function renderAdminList() {
@@ -1122,25 +1127,35 @@ function renderAdminList() {
 
 function editProduct(id) {
   const p = products.find(x => String(x.id) === String(id));
+  if (!p) return;
+  // 先設定 editingId，再切換頁籤（這樣 switchTab 就不會清空表單）
   editingId = id;
+  switchTab('add', document.querySelectorAll('.admin-tab')[1]);
+
+  // 填入商品資料
   currentUploadedUrl = p.img || '';
-  document.getElementById('productName').value = p.name;
+  document.getElementById('productName').value = p.name || '';
   document.getElementById('productDesc').value = p.desc || '';
-  document.getElementById('productCat').value = p.category;
+  document.getElementById('productCat').value = p.category || '上衣';
   document.getElementById('productPrice').value = p.price || '';
   document.getElementById('productTag').value = p.tag || '';
+
   const prev = document.getElementById('imgPreview');
   if (p.img) { prev.src = p.img; prev.style.display = 'block'; }
   else prev.style.display = 'none';
+
   document.getElementById('uploadIcon').textContent = p.img ? '✅' : '☁️';
   document.getElementById('uploadText').innerHTML = p.img
     ? '圖片已上傳 <span style="color:var(--rose);cursor:pointer;" onclick="openCloudinaryWidget()">（重新上傳）</span>'
     : '點擊上傳圖片到雲端<br><small style="font-size:11px;opacity:.7;">圖片將儲存於 Cloudinary，所有人都看得到</small>';
   document.getElementById('uploadStatus').style.display = 'none';
-  const sizes = Array.isArray(p.sizes) ? p.sizes : [];
+  document.getElementById('cloudinaryNotice').style.display = 'none';
+
+  // 尺寸：確保是陣列
+  const sizes = Array.isArray(p.sizes)
+    ? p.sizes
+    : String(p.sizes || '').split(',').map(s => s.trim()).filter(s => s);
   renderSizesEditor(sizes);
-  switchTab('add', document.querySelectorAll('.admin-tab')[1]);
-  editingId = id; // re-set after switchTab clears it
 }
 
 async function deleteProduct(id) {
