@@ -914,55 +914,54 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ────────────── DATA ──────────────
+// ────────────── CONFIG ──────────────
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxrISlpAWwQ7zn4IYAY_R6kQxMO9o6fex7gdXzQ9M3vV3PuFuaBhS-DtjN_JfpLLC-OpQ/exec';
 const AVAILABLE_SIZES = ['80', '90', '100', '110', '120', '130', '140', '150'];
 
-let products = JSON.parse(localStorage.getItem('products') || '[]');
+let products = [];
 let cart = [];
 let lineId = localStorage.getItem('lineId') || '';
 let editingId = null;
+let currentFilter = 'all';
 let cloudName = localStorage.getItem('cloudName') || '';
 let uploadPreset = localStorage.getItem('uploadPreset') || '';
-let currentUploadedUrl = ''; // holds URL after Cloudinary upload
+let currentUploadedUrl = '';
 
-// sample data if empty
-if (products.length === 0) {
-  products = [
-    {
-      id: 1, name: '粉彩兔兔上衣', desc: '純棉材質，親膚舒適',
-      category: '上衣', price: 'NT$350', tag: '熱銷',
-      sizes: ['90','100','110','120'], img: '',
-    },
-    {
-      id: 2, name: '彩虹條紋連身裙', desc: '春夏款，輕盈好穿',
-      category: '洋裝', price: 'NT$480', tag: '新品',
-      sizes: ['100','110','120','130'], img: '',
-    },
-    {
-      id: 3, name: '小恐龍休閒褲', desc: '彈性腰帶，穿脫方便',
-      category: '褲子', price: 'NT$320', tag: '',
-      sizes: ['80','90','100','110','120'], img: '',
-    },
-    {
-      id: 4, name: '星星外套', desc: '防風保暖，秋冬必備',
-      category: '外套', price: 'NT$650', tag: '特價',
-      sizes: ['110','120','130','140'], img: '',
-    },
-  ];
-  saveProducts();
+// ────────────── GOOGLE SHEETS API ──────────────
+async function apiGet() {
+  const res = await fetch(GAS_URL);
+  return res.json();
 }
 
-function saveProducts() {
-  localStorage.setItem('products', JSON.stringify(products));
+async function apiPost(body) {
+  const res = await fetch(GAS_URL, {
+    method: 'POST',
+    body: JSON.stringify(body)
+  });
+  return res.json();
 }
 
-function saveLineId() {
-  lineId = document.getElementById('lineId').value;
-  localStorage.setItem('lineId', lineId);
+// ────────────── LOAD PRODUCTS ──────────────
+async function loadProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--mid);">
+    <div style="font-size:32px;margin-bottom:12px;">⏳</div>
+    <div style="font-weight:700;">載入商品中...</div>
+  </div>`;
+  try {
+    products = await apiGet();
+    renderProducts(currentFilter);
+  } catch(e) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--mid);">
+      <div style="font-size:32px;margin-bottom:12px;">😔</div>
+      <div style="font-weight:700;">載入失敗，請重新整理頁面</div>
+    </div>`;
+  }
 }
 
 // ────────────── RENDER ──────────────
 function renderProducts(filter = 'all') {
+  currentFilter = filter;
   const grid = document.getElementById('productsGrid');
   const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
   document.getElementById('productCount').textContent = `共 ${filtered.length} 件商品`;
@@ -972,32 +971,28 @@ function renderProducts(filter = 'all') {
     return;
   }
 
-  grid.innerHTML = filtered.map(p => `
+  grid.innerHTML = filtered.map(p => {
+    const sizes = Array.isArray(p.sizes) ? p.sizes : [];
+    return `
     <div class="product-card" data-id="${p.id}">
       <div class="product-img">
-        ${p.img
-          ? `<img src="${p.img}" alt="${p.name}">`
-          : `<div class="product-img-placeholder">👕</div>`}
+        ${p.img ? `<img src="${p.img}" alt="${p.name}">` : `<div class="product-img-placeholder">👕</div>`}
         ${p.tag ? `<div class="product-tag">${p.tag}</div>` : ''}
       </div>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
         <div class="product-desc">${p.desc || p.category}</div>
         <div class="sizes-row" id="sizes-${p.id}">
-          ${p.sizes.map(s => `
-            <button class="size-chip" onclick="selectSize(${p.id}, '${s}', this)">${s}</button>
-          `).join('')}
+          ${sizes.map(s => `<button class="size-chip" onclick="selectSize('${p.id}', '${s}', this)">${s}</button>`).join('')}
         </div>
         ${p.price ? `<div class="product-price">${p.price}</div>` : ''}
-        <button class="add-cart-btn" onclick="addToCart(${p.id})">
-          🛍️ 加入選購清單
-        </button>
+        <button class="add-cart-btn" onclick="addToCart('${p.id}')">🛍️ 加入選購清單</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
-let selectedSizes = {}; // productId -> size
+let selectedSizes = {};
 
 function selectSize(id, size, el) {
   document.querySelectorAll(`#sizes-${id} .size-chip`).forEach(c => c.classList.remove('selected'));
@@ -1006,12 +1001,9 @@ function selectSize(id, size, el) {
 }
 
 function addToCart(id) {
-  const p = products.find(x => x.id === id);
+  const p = products.find(x => String(x.id) === String(id));
   const size = selectedSizes[id];
-  if (!size) {
-    showToast('⚠️ 請先選擇尺寸！');
-    return;
-  }
+  if (!size) { showToast('⚠️ 請先選擇尺寸！'); return; }
   cart.push({ ...p, selectedSize: size, cartId: Date.now() });
   updateCartUI();
   showToast(`✅ ${p.name} (${size}) 已加入清單！`);
@@ -1026,7 +1018,6 @@ function updateCartUI() {
   const count = cart.length;
   document.getElementById('cartCount').textContent = count;
   document.getElementById('cartCountText').textContent = `已選 ${count} 件商品`;
-
   const container = document.getElementById('cartItems');
   if (count === 0) {
     container.innerHTML = `<div class="cart-empty"><div class="icon">🧺</div><p>還沒有選購任何商品<br>快去挑一挑吧！</p></div>`;
@@ -1034,9 +1025,7 @@ function updateCartUI() {
   }
   container.innerHTML = cart.map(item => `
     <div class="cart-item">
-      <div class="cart-item-img">
-        ${item.img ? `<img src="${item.img}">` : ''}
-      </div>
+      <div class="cart-item-img">${item.img ? `<img src="${item.img}">` : ''}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
         <div class="cart-item-size">尺寸：${item.selectedSize} ｜ ${item.category}</div>
@@ -1048,22 +1037,16 @@ function updateCartUI() {
 
 // ────────────── LINE ──────────────
 function sendToLine() {
-  if (cart.length === 0) {
-    showToast('❌ 請先選購商品！');
-    return;
-  }
+  if (cart.length === 0) { showToast('❌ 請先選購商品！'); return; }
   const msg = '您好！我想詢問以下商品是否有庫存：\n\n'
     + cart.map((item, i) => `${i+1}. ${item.name} / 尺寸 ${item.selectedSize}`).join('\n')
     + '\n\n請問以上商品有貨嗎？謝謝 🙏';
-
   const encoded = encodeURIComponent(msg);
   let url = '';
   if (lineId) {
-    // If line id starts with @, use official account format
     const id = lineId.startsWith('@') ? lineId.slice(1) : lineId;
     url = `https://line.me/R/ti/p/${id}?text=${encoded}`;
   } else {
-    // fallback: open line with message (no recipient)
     url = `https://line.me/R/msg/text/?${encoded}`;
   }
   window.open(url, '_blank');
@@ -1097,13 +1080,18 @@ function toggleAdmin() {
   }
 }
 
+function saveLineId() {
+  lineId = document.getElementById('lineId').value;
+  localStorage.setItem('lineId', lineId);
+}
+
 function switchTab(name, btn) {
   ['list','add','settings'].forEach(t => {
     document.getElementById('tab-'+t).style.display = t === name ? 'block' : 'none';
   });
   document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  if (name === 'add') renderSizesEditor([]);
+  if (name === 'add') { editingId = null; clearForm(); }
 }
 
 function renderAdminList() {
@@ -1114,22 +1102,20 @@ function renderAdminList() {
   }
   list.innerHTML = products.map(p => `
     <div class="product-admin-item">
-      <div class="product-admin-img">
-        ${p.img ? `<img src="${p.img}">` : ''}
-      </div>
+      <div class="product-admin-img">${p.img ? `<img src="${p.img}">` : ''}</div>
       <div class="product-admin-info" style="flex:1;">
         <div style="font-weight:800;font-size:14px;color:var(--deep);">${p.name}</div>
-        <div style="font-size:12px;color:var(--mid);">${p.category} ｜ ${p.sizes.join(', ')}</div>
+        <div style="font-size:12px;color:var(--mid);">${p.category} ｜ ${Array.isArray(p.sizes) ? p.sizes.join(', ') : p.sizes}</div>
         ${p.price ? `<div style="font-size:12px;color:var(--coral);font-weight:700;">${p.price}</div>` : ''}
       </div>
-      <button class="btn-edit-item" onclick="editProduct(${p.id})">✏️</button>
-      <button class="btn-delete" onclick="deleteProduct(${p.id})">🗑️</button>
+      <button class="btn-edit-item" onclick="editProduct('${p.id}')">✏️</button>
+      <button class="btn-delete" onclick="deleteProduct('${p.id}')">🗑️</button>
     </div>
   `).join('');
 }
 
 function editProduct(id) {
-  const p = products.find(x => x.id === id);
+  const p = products.find(x => String(x.id) === String(id));
   editingId = id;
   currentUploadedUrl = p.img || '';
   document.getElementById('productName').value = p.name;
@@ -1145,17 +1131,23 @@ function editProduct(id) {
     ? '圖片已上傳 <span style="color:var(--rose);cursor:pointer;" onclick="openCloudinaryWidget()">（重新上傳）</span>'
     : '點擊上傳圖片到雲端<br><small style="font-size:11px;opacity:.7;">圖片將儲存於 Cloudinary，所有人都看得到</small>';
   document.getElementById('uploadStatus').style.display = 'none';
-  renderSizesEditor(p.sizes);
+  const sizes = Array.isArray(p.sizes) ? p.sizes : [];
+  renderSizesEditor(sizes);
   switchTab('add', document.querySelectorAll('.admin-tab')[1]);
+  editingId = id; // re-set after switchTab clears it
 }
 
-function deleteProduct(id) {
+async function deleteProduct(id) {
   if (!confirm('確定要刪除這個商品嗎？')) return;
-  products = products.filter(x => x.id !== id);
-  saveProducts();
-  renderAdminList();
-  renderProducts();
-  showToast('🗑️ 商品已刪除');
+  showToast('⏳ 刪除中...');
+  try {
+    await apiPost({ action: 'delete', id });
+    showToast('🗑️ 商品已刪除');
+    await loadProducts();
+    renderAdminList();
+  } catch(e) {
+    showToast('❌ 刪除失敗，請重試');
+  }
 }
 
 function cancelEdit() {
@@ -1183,10 +1175,9 @@ function renderSizesEditor(selected) {
   `).join('');
 }
 
-function toggleSizeBtn(btn) {
-  btn.classList.toggle('on');
-}
+function toggleSizeBtn(btn) { btn.classList.toggle('on'); }
 
+// ────────────── CLOUDINARY ──────────────
 function saveCloudinarySettings() {
   cloudName = document.getElementById('cloudName').value.trim();
   uploadPreset = document.getElementById('uploadPreset').value.trim();
@@ -1208,8 +1199,6 @@ function openCloudinaryWidget() {
     return;
   }
   document.getElementById('cloudinaryNotice').style.display = 'none';
-
-  // Use Cloudinary Upload Widget via script tag
   if (!window.cloudinary) {
     const script = document.createElement('script');
     script.src = 'https://upload-widget.cloudinary.com/global/all.js';
@@ -1223,14 +1212,9 @@ function openCloudinaryWidget() {
 function launchWidget() {
   const widget = window.cloudinary.createUploadWidget(
     {
-      cloudName: cloudName,
-      uploadPreset: uploadPreset,
+      cloudName, uploadPreset,
       sources: ['local', 'camera'],
-      multiple: false,
-      maxFileSize: 5000000,
-      cropping: false,
-      language: 'zh_TW',
-      text: { 'zh_TW': { 'or': '或', 'menu': { 'files': '電腦上傳', 'camera': '相機拍照' } } },
+      multiple: false, maxFileSize: 5000000, cropping: false,
       styles: {
         palette: { window: '#FFFFFF', windowBorder: '#E8CCFF', tabIcon: '#FF4F7B',
           menuIcons: '#6B4F8A', textDark: '#3D2B5C', textLight: '#FFFFFF',
@@ -1239,10 +1223,7 @@ function launchWidget() {
       }
     },
     (error, result) => {
-      if (error) {
-        showToast('❌ 上傳失敗，請確認 Cloud Name 和 Upload Preset 是否正確');
-        return;
-      }
+      if (error) { showToast('❌ 上傳失敗，請確認設定是否正確'); return; }
       if (result.event === 'upload-added') {
         document.getElementById('uploadStatus').style.display = 'block';
         document.getElementById('uploadStatus').textContent = '⏳ 上傳中...';
@@ -1251,8 +1232,7 @@ function launchWidget() {
         const url = result.info.secure_url;
         currentUploadedUrl = url;
         const prev = document.getElementById('imgPreview');
-        prev.src = url;
-        prev.style.display = 'block';
+        prev.src = url; prev.style.display = 'block';
         document.getElementById('uploadStatus').textContent = '✅ 圖片已上傳到雲端！';
         document.getElementById('uploadIcon').textContent = '✅';
         document.getElementById('uploadText').innerHTML = '圖片已上傳 <span style="color:var(--rose);cursor:pointer;" onclick="openCloudinaryWidget()">（重新上傳）</span>';
@@ -1263,15 +1243,12 @@ function launchWidget() {
   widget.open();
 }
 
-function previewImage(input) {
-  // fallback - not used with Cloudinary
-}
+function previewImage(input) {}
 
-
-function saveProduct() {
+// ────────────── SAVE PRODUCT (to Google Sheets) ──────────────
+async function saveProduct() {
   const name = document.getElementById('productName').value.trim();
   if (!name) { showToast('⚠️ 請輸入商品名稱！'); return; }
-
   const sizes = Array.from(document.querySelectorAll('#sizesEditor .size-toggle.on')).map(b => b.textContent);
   if (sizes.length === 0) { showToast('⚠️ 請至少選一個尺寸！'); return; }
 
@@ -1288,21 +1265,29 @@ function saveProduct() {
     img,
   };
 
-  if (editingId) {
-    const idx = products.findIndex(x => x.id === editingId);
-    products[idx] = { ...products[idx], ...data };
-    showToast('✅ 商品已更新！');
-  } else {
-    products.push({ id: Date.now(), ...data });
-    showToast('✅ 商品已新增！');
-  }
+  const saveBtn = document.querySelector('.btn-save');
+  saveBtn.textContent = '⏳ 儲存中...';
+  saveBtn.disabled = true;
 
-  saveProducts();
-  editingId = null;
-  clearForm();
-  renderProducts();
-  switchTab('list', document.querySelectorAll('.admin-tab')[0]);
-  renderAdminList();
+  try {
+    if (editingId) {
+      await apiPost({ action: 'update', id: editingId, ...data });
+      showToast('✅ 商品已更新！');
+    } else {
+      await apiPost({ action: 'add', ...data });
+      showToast('✅ 商品已新增！');
+    }
+    editingId = null;
+    clearForm();
+    await loadProducts();
+    renderAdminList();
+    switchTab('list', document.querySelectorAll('.admin-tab')[0]);
+  } catch(e) {
+    showToast('❌ 儲存失敗，請重試');
+  } finally {
+    saveBtn.textContent = '💾 儲存商品';
+    saveBtn.disabled = false;
+  }
 }
 
 // ────────────── TOAST ──────────────
@@ -1310,7 +1295,7 @@ function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 function showAbout() {
@@ -1318,7 +1303,7 @@ function showAbout() {
 }
 
 // ────────────── INIT ──────────────
-renderProducts();
+loadProducts();
 updateCartUI();
 </script>
 </body>
