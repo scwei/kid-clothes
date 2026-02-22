@@ -930,7 +930,13 @@ let currentUploadedUrl = '';
 // ────────────── GOOGLE SHEETS API ──────────────
 async function apiGet() {
   const res = await fetch(GAS_URL);
-  return res.json();
+  const data = await res.json();
+  return data.map(p => ({
+    ...p,
+    sizes: Array.isArray(p.sizes)
+      ? p.sizes
+      : String(p.sizes || '').split(',').map(s => s.trim()).filter(s => s)
+  }));
 }
 
 async function apiPost(body) {
