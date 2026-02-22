@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小天使童裝 ✦ Little Angel Kids</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8F0;
+    --peach: #FFD6B8;
+    --coral: #FF7B54;
+    --rose: #FF4F7B;
+    --mint: #B8F0E0;
+    --sky: #C8E8FF;
+    --lilac: #E8CCFF;
+    --deep: #2D1B4E;
+    --mid: #6B4F8A;
+    --text: #3D2B5C;
+    --card-bg: #FFFFFF;
+    --shadow: 0 8px 32px rgba(106,79,138,0.12);
+    --radius: 20px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: linear-gradient(135deg, #FFF0F8 0%, #F0E8FF 50%, #E8F8FF 100%);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid rgba(255,75,123,0.12);
+    backdrop-filter: blur(12px);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    gap: 16px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--rose), var(--coral));
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 14px rgba(255,75,123,0.35);
+  }
+  .logo-text {
+    line-height: 1.1;
+  }
+  .logo-text .main { font-size: 18px; font-weight: 900; color: var(--deep); }
+  .logo-text .sub { font-size: 11px; font-weight: 600; color: var(--mid); letter-spacing: 1px; }
+
+  nav { display: flex; gap: 8px; align-items: center; }
+  nav a {
+    text-decoration: none;
+    font-size: 14px; font-weight: 700;
+    color: var(--mid);
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: all .2s;
+  }
+  nav a:hover, nav a.active {
+    background: var(--rose);
+    color: white;
+  }
+  .cart-btn {
+    background: linear-gradient(135deg, var(--rose), var(--coral));
+    color: white !important;
+    padding: 8px 18px !important;
+    border-radius: 20px;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    box-shadow: 0 4px 14px rgba(255,75,123,0.3);
+    display: flex; align-items: center; gap: 6px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    position: relative;
+  }
+  .cart-count {
+    background: white;
+    color: var(--rose);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(160deg, #FFF0F8 0%, #F5E8FF 40%, #E8F5FF 100%);
+    padding: 70px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,75,123,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -40px;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(184,240,224,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--peach), var(--lilac));
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 13px; font-weight: 700;
+    color: var(--mid);
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    color: var(--deep);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--rose), var(--coral));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 16px;
+    color: var(--mid);
+    max-width: 480px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--rose), var(--coral));
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 40px;
+    font-size: 15px; font-weight: 800;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0 6px 20px rgba(255,75,123,0.35);
+    transition: all .2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,75,123,0.4); }
+  .btn-outline {
+    background: white;
+    color: var(--rose);
+    border: 2px solid var(--rose);
+    padding: 12px 28px;
+    border-radius: 40px;
+    font-size: 15px; font-weight: 800;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all .2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-outline:hover { background: var(--rose); color: white; }
+
+  /* floating stickers */
+  .sticker {
+    position: absolute;
+    font-size: 32px;
+    opacity: 0.5;
+    animation: float 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .sticker:nth-child(1) { top: 15%; left: 5%; animation-delay: 0s; }
+  .sticker:nth-child(2) { top: 20%; right: 8%; animation-delay: 1s; }
+  .sticker:nth-child(3) { bottom: 20%; left: 8%; animation-delay: 2s; }
+  .sticker:nth-child(4) { bottom: 15%; right: 5%; animation-delay: 0.5s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-5deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  /* ─── FILTERS ─── */
+  .filters {
+    background: white;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(106,79,138,0.08);
+  }
+  .filters-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  }
+  .filter-label { font-size: 13px; font-weight: 700; color: var(--mid); margin-right: 4px; }
+  .filter-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1.5px solid rgba(106,79,138,0.2);
+    background: white;
+    font-size: 13px; font-weight: 700;
+    color: var(--mid);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all .2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--lilac);
+    border-color: var(--mid);
+    color: var(--deep);
+  }
+
+  /* ─── PRODUCTS ─── */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+  .section-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap; gap: 8px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--deep);
+  }
+  .section-subtitle { font-size: 13px; color: var(--mid); font-weight: 600; }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .product-card {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all .3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .product-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(106,79,138,0.18); }
+
+  .product-img {
+    width: 100%; aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--sky), var(--lilac));
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .product-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .4s;
+  }
+  .product-card:hover .product-img img { transform: scale(1.05); }
+  .product-img-placeholder {
+    font-size: 48px;
+    opacity: 0.4;
+  }
+
+  .product-tag {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--rose);
+    color: white;
+    font-size: 11px; font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 10px;
+  }
+  .product-fav {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 32px; height: 32px;
+    background: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    border: none;
+    transition: transform .2s;
+  }
+  .product-fav:hover { transform: scale(1.15); }
+
+  .product-info { padding: 16px; }
+  .product-name { font-size: 15px; font-weight: 800; color: var(--deep); margin-bottom: 4px; }
+  .product-desc { font-size: 12px; color: var(--mid); margin-bottom: 10px; line-height: 1.5; }
+
+  .sizes-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
+  .size-chip {
+    padding: 3px 10px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(106,79,138,0.2);
+    font-size: 11px; font-weight: 700;
+    color: var(--mid);
+    cursor: pointer;
+    background: white;
+    transition: all .15s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .size-chip:hover { border-color: var(--rose); color: var(--rose); }
+  .size-chip.selected { background: var(--rose); border-color: var(--rose); color: white; }
+  .size-chip.oos { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+
+  .product-price { font-size: 17px; font-weight: 900; color: var(--coral); margin-bottom: 12px; }
+
+  .add-cart-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--rose), var(--coral));
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 13px; font-weight: 800;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all .2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .add-cart-btn:hover { opacity: 0.9; transform: scale(1.01); }
+  .add-cart-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+  /* ─── CART SIDEBAR ─── */
+  .cart-overlay {
+    position: fixed; inset: 0;
+    background: rgba(45,27,78,0.4);
+    z-index: 200;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+    backdrop-filter: blur(4px);
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-sidebar {
+    position: fixed;
+    right: 0; top: 0; bottom: 0;
+    width: min(400px, 95vw);
+    background: white;
+    z-index: 201;
+    transform: translateX(100%);
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    display: flex; flex-direction: column;
+    border-radius: 24px 0 0 24px;
+    overflow: hidden;
+  }
+  .cart-sidebar.open { transform: translateX(0); }
+
+  .cart-header {
+    background: linear-gradient(135deg, #FFF0F8, #F5E8FF);
+    padding: 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(106,79,138,0.1);
+  }
+  .cart-header h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--deep); }
+  .close-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,75,123,0.1);
+    color: var(--rose);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+
+  .cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+  .cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--mid);
+  }
+  .cart-empty .icon { font-size: 48px; margin-bottom: 12px; }
+  .cart-empty p { font-size: 14px; font-weight: 600; }
+
+  .cart-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(106,79,138,0.06);
+  }
+  .cart-item-img {
+    width: 60px; height: 75px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--sky), var(--lilac));
+    overflow: hidden; flex-shrink: 0;
+  }
+  .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 14px; font-weight: 800; color: var(--deep); }
+  .cart-item-size { font-size: 12px; color: var(--mid); font-weight: 600; margin: 2px 0 8px; }
+  .cart-item-remove {
+    background: none; border: none;
+    color: #ccc; font-size: 18px;
+    cursor: pointer;
+    padding: 0 4px;
+    transition: color .2s;
+  }
+  .cart-item-remove:hover { color: var(--rose); }
+
+  .cart-footer {
+    padding: 20px 24px;
+    border-top: 1px solid rgba(106,79,138,0.1);
+    background: #FAFAFA;
+  }
+  .cart-summary { font-size: 13px; color: var(--mid); margin-bottom: 6px; font-weight: 600; }
+  .cart-count-text { font-size: 14px; font-weight: 800; color: var(--deep); margin-bottom: 16px; }
+
+  .line-btn {
+    width: 100%;
+    background: #06C755;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 15px; font-weight: 800;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all .2s;
+    margin-bottom: 8px;
+  }
+  .line-btn:hover { background: #05b54c; transform: translateY(-1px); }
+  .line-btn svg { width: 22px; height: 22px; fill: white; }
+  .line-note { font-size: 11px; color: var(--mid); text-align: center; line-height: 1.5; }
+
+  /* ─── ADMIN PANEL ─── */
+  .admin-overlay {
+    position: fixed; inset: 0;
+    background: rgba(45,27,78,0.5);
+    z-index: 300;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+    backdrop-filter: blur(6px);
+  }
+  .admin-overlay.open { opacity: 1; pointer-events: all; }
+
+  .admin-modal {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: min(600px, 95vw);
+    max-height: 90vh;
+    background: white;
+    border-radius: 24px;
+    z-index: 301;
+    overflow-y: auto;
+    opacity: 0; pointer-events: none;
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 24px 80px rgba(45,27,78,0.25);
+  }
+  .admin-modal.open {
+    opacity: 1; pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .admin-modal-header {
+    background: linear-gradient(135deg, var(--deep), var(--mid));
+    padding: 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    color: white;
+    border-radius: 24px 24px 0 0;
+  }
+  .admin-modal-header h2 { font-size: 18px; font-weight: 800; }
+  .admin-modal-body { padding: 24px; }
+
+  .product-list-admin { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+  .product-admin-item {
+    display: flex; gap: 12px; align-items: center;
+    padding: 12px;
+    border: 1.5px solid rgba(106,79,138,0.15);
+    border-radius: 14px;
+    background: #FAFAFA;
+  }
+  .product-admin-img {
+    width: 52px; height: 64px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--sky), var(--lilac));
+    overflow: hidden; flex-shrink: 0;
+  }
+  .product-admin-img img { width: 100%; height: 100%; object-fit: cover; }
+  .product-admin-info { flex: 1; }
+  .product-admin-info input, .product-admin-info textarea {
+    width: 100%;
+    border: 1.5px solid rgba(106,79,138,0.2);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    margin-bottom: 4px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .product-admin-info input:focus,
+  .product-admin-info textarea:focus { border-color: var(--rose); }
+
+  .form-group { margin-bottom: 16px; }
+  .form-group label { font-size: 13px; font-weight: 700; color: var(--mid); display: block; margin-bottom: 6px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    border: 1.5px solid rgba(106,79,138,0.2);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color .2s;
+    background: white;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--rose); box-shadow: 0 0 0 3px rgba(255,75,123,0.08); }
+
+  .upload-area {
+    border: 2px dashed rgba(106,79,138,0.3);
+    border-radius: 14px;
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    background: #FAFAFA;
+  }
+  .upload-area:hover { border-color: var(--rose); background: rgba(255,75,123,0.03); }
+  .upload-area .upload-icon { font-size: 36px; margin-bottom: 10px; }
+  .upload-area p { font-size: 13px; color: var(--mid); font-weight: 600; }
+  .upload-area input { display: none; }
+  .upload-preview {
+    width: 100%; max-height: 200px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .sizes-editor { display: flex; gap: 6px; flex-wrap: wrap; }
+  .size-toggle {
+    padding: 6px 14px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(106,79,138,0.2);
+    background: white;
+    font-size: 12px; font-weight: 700;
+    color: var(--mid);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all .15s;
+  }
+  .size-toggle.on { background: var(--deep); border-color: var(--deep); color: white; }
+
+  .admin-actions { display: flex; gap: 8px; }
+  .btn-save {
+    flex: 1;
+    background: linear-gradient(135deg, var(--rose), var(--coral));
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all .2s;
+  }
+  .btn-save:hover { opacity: 0.9; }
+  .btn-cancel {
+    background: #F0F0F0;
+    color: var(--mid);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+  }
+  .btn-delete {
+    background: #FFE8E8;
+    color: #E33;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-delete:hover { background: #FFD0D0; }
+  .btn-edit-item {
+    background: var(--lilac);
+    color: var(--mid);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* tabs */
+  .admin-tabs { display: flex; gap: 4px; margin-bottom: 20px; background: #F5F0FF; border-radius: 12px; padding: 4px; }
+  .admin-tab {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    background: none;
+    border-radius: 10px;
+    font-size: 13px; font-weight: 700;
+    color: var(--mid);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all .2s;
+  }
+  .admin-tab.active { background: white; color: var(--deep); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+  /* ─── LINE CONFIG ─── */
+  .line-config {
+    background: linear-gradient(135deg, rgba(6,199,85,0.08), rgba(6,199,85,0.03));
+    border: 1.5px solid rgba(6,199,85,0.2);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center;
+    flex-wrap: wrap;
+  }
+  .line-config-icon { font-size: 28px; }
+  .line-config-info { flex: 1; }
+  .line-config-info label { font-size: 12px; font-weight: 700; color: #05a044; }
+  .line-config-info input {
+    display: block;
+    width: 100%;
+    border: 1.5px solid rgba(6,199,85,0.3);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+    margin-top: 4px;
+    outline: none;
+    background: white;
+    color: var(--text);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--deep);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 13px;
+    line-height: 2;
+  }
+  footer strong { color: white; font-size: 15px; }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--deep);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-size: 14px; font-weight: 700;
+    z-index: 999;
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(45,27,78,0.3);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    nav a:not(.cart-btn) { display: none; }
+    .hero { padding: 48px 20px 56px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .admin-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon">👼</div>
+      <div class="logo-text">
+        <div class="main">小天使童裝</div>
+        <div class="sub">LITTLE ANGEL KIDS</div>
+      </div>
+    </a>
+    <nav>
+      <a href="#" class="active">全部商品</a>
+      <a href="#" onclick="showAbout()">關於我們</a>
+      <button class="cart-btn" onclick="toggleCart()">
+        🛍️ 選購清單
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="cart-btn" onclick="toggleAdmin()" style="background: linear-gradient(135deg,var(--mid),var(--deep)); margin-left:4px;">
+        ⚙️ 管理
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="sticker">🌸</div>
+  <div class="sticker">🎀</div>
+  <div class="sticker">⭐</div>
+  <div class="sticker">🌈</div>
+  <div class="hero-badge">✨ 台灣在地 · 精選童裝 ✨</div>
+  <h1>穿上快樂<br>每天都是<em>小天使</em></h1>
+  <p>精心挑選舒適、好看、耐穿的童裝，讓寶貝從頭到腳都充滿活力與笑容 💕</p>
+  <div class="hero-actions">
+    <a href="#products" class="btn-primary">立刻逛逛 →</a>
+    <button class="btn-outline" onclick="toggleCart()">查看選購清單</button>
+  </div>
+</section>
+
+<!-- FILTERS -->
+<div class="filters">
+  <div class="filters-inner">
+    <span class="filter-label">篩選：</span>
+    <button class="filter-btn active" onclick="filterProducts('all', this)">全部</button>
+    <button class="filter-btn" onclick="filterProducts('上衣', this)">上衣</button>
+    <button class="filter-btn" onclick="filterProducts('褲子', this)">褲子</button>
+    <button class="filter-btn" onclick="filterProducts('洋裝', this)">洋裝</button>
+    <button class="filter-btn" onclick="filterProducts('套裝', this)">套裝</button>
+    <button class="filter-btn" onclick="filterProducts('外套', this)">外套</button>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="section" id="products">
+  <div class="section-header">
+    <h2 class="section-title">🧸 精選商品</h2>
+    <span class="section-subtitle" id="productCount">共 0 件商品</span>
+  </div>
+  <div class="products-grid" id="productsGrid">
+    <!-- products rendered here -->
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>👼 小天使童裝 Little Angel Kids</strong><br>
+  有任何問題歡迎透過 LINE 聯繫我們 💬<br>
+  <small>© 2025 小天使童裝 · 用愛打造每套衣裳</small>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>🛍️ 選購清單</h2>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="icon">🧺</div>
+      <p>還沒有選購任何商品<br>快去挑一挑吧！</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-count-text" id="cartCountText">已選 0 件商品</div>
+    <button class="line-btn" onclick="sendToLine()">
+      <svg viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.070 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+      傳送到 LINE 詢問
+    </button>
+    <p class="line-note">點擊後將跳轉 LINE，系統會自動帶入您選的商品資訊 🎀</p>
+  </div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div class="admin-overlay" id="adminOverlay" onclick="toggleAdmin()"></div>
+<div class="admin-modal" id="adminModal">
+  <div class="admin-modal-header">
+    <h2>⚙️ 商品管理後台</h2>
+    <button class="close-btn" style="background:rgba(255,255,255,0.15);color:white;" onclick="toggleAdmin()">✕</button>
+  </div>
+  <div class="admin-modal-body">
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchTab('list', this)">📋 商品列表</button>
+      <button class="admin-tab" onclick="switchTab('add', this)">➕ 新增商品</button>
+      <button class="admin-tab" onclick="switchTab('settings', this)">🔧 設定</button>
+    </div>
+
+    <!-- Tab: List -->
+    <div id="tab-list">
+      <div class="product-list-admin" id="adminProductList"></div>
+      <button class="btn-primary" style="width:100%;margin-top:8px;" onclick="switchTab('add', document.querySelector('.admin-tab:nth-child(2)'))">➕ 新增商品</button>
+    </div>
+
+    <!-- Tab: Add/Edit -->
+    <div id="tab-add" style="display:none;">
+      <div id="editingId" data-id=""></div>
+      <div class="form-group">
+        <label>📸 商品圖片</label>
+        <div class="upload-area" id="uploadArea" onclick="openCloudinaryWidget()">
+          <div class="upload-icon" id="uploadIcon">☁️</div>
+          <p id="uploadText">點擊上傳圖片到雲端<br><small style="font-size:11px;opacity:.7;">圖片將儲存於 Cloudinary，所有人都看得到</small></p>
+          <img id="imgPreview" class="upload-preview" style="display:none;">
+          <div id="uploadStatus" style="display:none;margin-top:8px;font-size:12px;color:var(--mid);font-weight:600;"></div>
+        </div>
+        <div id="cloudinaryNotice" style="display:none;margin-top:8px;background:#FFF3CD;border:1px solid #FFEAA7;border-radius:8px;padding:10px;font-size:12px;color:#856404;line-height:1.6;">
+          ⚠️ 尚未設定 Cloudinary！請先到 <b>⚙️ 管理 → 設定</b> 填入 Cloud Name 和 Upload Preset。
+        </div>
+      </div>
+      <div class="form-group">
+        <label>👕 商品名稱</label>
+        <input type="text" id="productName" placeholder="例：粉彩兔兔上衣">
+      </div>
+      <div class="form-group">
+        <label>📝 商品描述（選填）</label>
+        <input type="text" id="productDesc" placeholder="例：純棉材質，親膚舒適">
+      </div>
+      <div class="form-group">
+        <label>🏷️ 分類</label>
+        <select id="productCat">
+          <option>上衣</option>
+          <option>褲子</option>
+          <option>洋裝</option>
+          <option>套裝</option>
+          <option>外套</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>💰 售價（選填）</label>
+        <input type="text" id="productPrice" placeholder="例：NT$350">
+      </div>
+      <div class="form-group">
+        <label>📏 可選尺寸（點擊開啟/關閉）</label>
+        <div class="sizes-editor" id="sizesEditor"></div>
+      </div>
+      <div class="form-group">
+        <label>🔖 標籤（選填）</label>
+        <input type="text" id="productTag" placeholder="例：新品、熱銷、特價">
+      </div>
+      <div class="admin-actions">
+        <button class="btn-cancel" onclick="cancelEdit()">取消</button>
+        <button class="btn-save" onclick="saveProduct()">💾 儲存商品</button>
+      </div>
+    </div>
+
+    <!-- Tab: Settings -->
+    <div id="tab-settings" style="display:none;">
+
+      <!-- Cloudinary -->
+      <div style="background:linear-gradient(135deg,#E8F4FD,#F0E8FF);border-radius:14px;padding:16px;margin-bottom:16px;">
+        <div style="font-size:15px;font-weight:800;color:var(--deep);margin-bottom:4px;">☁️ Cloudinary 圖片雲端設定</div>
+        <div style="font-size:12px;color:var(--mid);margin-bottom:12px;line-height:1.6;">
+          免費申請：<a href="https://cloudinary.com" target="_blank" style="color:var(--rose);font-weight:700;">cloudinary.com</a><br>
+          登入後 Dashboard 可找到 Cloud Name；<br>
+          Upload Preset 請到 Settings → Upload → Add upload preset，Mode 設 <b>Unsigned</b>
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label>Cloud Name</label>
+          <input type="text" id="cloudName" placeholder="例：my-cloud-abc123" oninput="saveCloudinarySettings()">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Upload Preset（Unsigned）</label>
+          <input type="text" id="uploadPreset" placeholder="例：kids_shop_unsigned" oninput="saveCloudinarySettings()">
+        </div>
+        <div id="cloudinaryStatusMsg" style="margin-top:10px;font-size:12px;font-weight:700;"></div>
+      </div>
+
+      <!-- LINE -->
+      <div class="line-config">
+        <div class="line-config-icon">💬</div>
+        <div class="line-config-info">
+          <label>LINE ID 或 LINE 連結</label>
+          <input type="text" id="lineId" placeholder="@your_line_id 或 line.me/ti/p/xxxxx" oninput="saveLineId()">
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--mid);line-height:1.7;">
+        🔹 輸入您的 LINE ID（例：@angelkids）或 LINE 官方帳號連結<br>
+        🔹 顧客選完商品後，系統會帶著商品清單跳轉到 LINE<br>
+        🔹 您就可以直接在 LINE 上回覆確認庫存囉！
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ────────────── DATA ──────────────
+const AVAILABLE_SIZES = ['80', '90', '100', '110', '120', '130', '140', '150'];
+
+let products = JSON.parse(localStorage.getItem('products') || '[]');
+let cart = [];
+let lineId = localStorage.getItem('lineId') || '';
+let editingId = null;
+let cloudName = localStorage.getItem('cloudName') || '';
+let uploadPreset = localStorage.getItem('uploadPreset') || '';
+let currentUploadedUrl = ''; // holds URL after Cloudinary upload
+
+// sample data if empty
+if (products.length === 0) {
+  products = [
+    {
+      id: 1, name: '粉彩兔兔上衣', desc: '純棉材質，親膚舒適',
+      category: '上衣', price: 'NT$350', tag: '熱銷',
+      sizes: ['90','100','110','120'], img: '',
+    },
+    {
+      id: 2, name: '彩虹條紋連身裙', desc: '春夏款，輕盈好穿',
+      category: '洋裝', price: 'NT$480', tag: '新品',
+      sizes: ['100','110','120','130'], img: '',
+    },
+    {
+      id: 3, name: '小恐龍休閒褲', desc: '彈性腰帶，穿脫方便',
+      category: '褲子', price: 'NT$320', tag: '',
+      sizes: ['80','90','100','110','120'], img: '',
+    },
+    {
+      id: 4, name: '星星外套', desc: '防風保暖，秋冬必備',
+      category: '外套', price: 'NT$650', tag: '特價',
+      sizes: ['110','120','130','140'], img: '',
+    },
+  ];
+  saveProducts();
+}
+
+function saveProducts() {
+  localStorage.setItem('products', JSON.stringify(products));
+}
+
+function saveLineId() {
+  lineId = document.getElementById('lineId').value;
+  localStorage.setItem('lineId', lineId);
+}
+
+// ────────────── RENDER ──────────────
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('productsGrid');
+  const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+  document.getElementById('productCount').textContent = `共 ${filtered.length} 件商品`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--mid);font-weight:600;">此分類暫無商品 😊</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card" data-id="${p.id}">
+      <div class="product-img">
+        ${p.img
+          ? `<img src="${p.img}" alt="${p.name}">`
+          : `<div class="product-img-placeholder">👕</div>`}
+        ${p.tag ? `<div class="product-tag">${p.tag}</div>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc || p.category}</div>
+        <div class="sizes-row" id="sizes-${p.id}">
+          ${p.sizes.map(s => `
+            <button class="size-chip" onclick="selectSize(${p.id}, '${s}', this)">${s}</button>
+          `).join('')}
+        </div>
+        ${p.price ? `<div class="product-price">${p.price}</div>` : ''}
+        <button class="add-cart-btn" onclick="addToCart(${p.id})">
+          🛍️ 加入選購清單
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+let selectedSizes = {}; // productId -> size
+
+function selectSize(id, size, el) {
+  document.querySelectorAll(`#sizes-${id} .size-chip`).forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSizes[id] = size;
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  const size = selectedSizes[id];
+  if (!size) {
+    showToast('⚠️ 請先選擇尺寸！');
+    return;
+  }
+  cart.push({ ...p, selectedSize: size, cartId: Date.now() });
+  updateCartUI();
+  showToast(`✅ ${p.name} (${size}) 已加入清單！`);
+}
+
+function removeFromCart(cartId) {
+  cart = cart.filter(x => x.cartId !== cartId);
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const count = cart.length;
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartCountText').textContent = `已選 ${count} 件商品`;
+
+  const container = document.getElementById('cartItems');
+  if (count === 0) {
+    container.innerHTML = `<div class="cart-empty"><div class="icon">🧺</div><p>還沒有選購任何商品<br>快去挑一挑吧！</p></div>`;
+    return;
+  }
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">
+        ${item.img ? `<img src="${item.img}">` : ''}
+      </div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-size">尺寸：${item.selectedSize} ｜ ${item.category}</div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${item.cartId})">×</button>
+    </div>
+  `).join('');
+}
+
+// ────────────── LINE ──────────────
+function sendToLine() {
+  if (cart.length === 0) {
+    showToast('❌ 請先選購商品！');
+    return;
+  }
+  const msg = '您好！我想詢問以下商品是否有庫存：\n\n'
+    + cart.map((item, i) => `${i+1}. ${item.name} / 尺寸 ${item.selectedSize}`).join('\n')
+    + '\n\n請問以上商品有貨嗎？謝謝 🙏';
+
+  const encoded = encodeURIComponent(msg);
+  let url = '';
+  if (lineId) {
+    // If line id starts with @, use official account format
+    const id = lineId.startsWith('@') ? lineId.slice(1) : lineId;
+    url = `https://line.me/R/ti/p/${id}?text=${encoded}`;
+  } else {
+    // fallback: open line with message (no recipient)
+    url = `https://line.me/R/msg/text/?${encoded}`;
+  }
+  window.open(url, '_blank');
+}
+
+// ────────────── FILTERS ──────────────
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+// ────────────── CART TOGGLE ──────────────
+function toggleCart() {
+  document.getElementById('cartOverlay').classList.toggle('open');
+  document.getElementById('cartSidebar').classList.toggle('open');
+}
+
+// ────────────── ADMIN ──────────────
+function toggleAdmin() {
+  document.getElementById('adminOverlay').classList.toggle('open');
+  document.getElementById('adminModal').classList.toggle('open');
+  renderAdminList();
+  document.getElementById('lineId').value = lineId;
+  document.getElementById('cloudName').value = cloudName;
+  document.getElementById('uploadPreset').value = uploadPreset;
+  if (cloudName && uploadPreset) {
+    const msg = document.getElementById('cloudinaryStatusMsg');
+    msg.style.color = '#05a044';
+    msg.textContent = '✅ 已設定好，可以上傳圖片！';
+  }
+}
+
+function switchTab(name, btn) {
+  ['list','add','settings'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t === name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (name === 'add') renderSizesEditor([]);
+}
+
+function renderAdminList() {
+  const list = document.getElementById('adminProductList');
+  if (products.length === 0) {
+    list.innerHTML = `<p style="text-align:center;color:var(--mid);padding:20px;">還沒有商品，快新增第一個！</p>`;
+    return;
+  }
+  list.innerHTML = products.map(p => `
+    <div class="product-admin-item">
+      <div class="product-admin-img">
+        ${p.img ? `<img src="${p.img}">` : ''}
+      </div>
+      <div class="product-admin-info" style="flex:1;">
+        <div style="font-weight:800;font-size:14px;color:var(--deep);">${p.name}</div>
+        <div style="font-size:12px;color:var(--mid);">${p.category} ｜ ${p.sizes.join(', ')}</div>
+        ${p.price ? `<div style="font-size:12px;color:var(--coral);font-weight:700;">${p.price}</div>` : ''}
+      </div>
+      <button class="btn-edit-item" onclick="editProduct(${p.id})">✏️</button>
+      <button class="btn-delete" onclick="deleteProduct(${p.id})">🗑️</button>
+    </div>
+  `).join('');
+}
+
+function editProduct(id) {
+  const p = products.find(x => x.id === id);
+  editingId = id;
+  currentUploadedUrl = p.img || '';
+  document.getElementById('productName').value = p.name;
+  document.getElementById('productDesc').value = p.desc || '';
+  document.getElementById('productCat').value = p.category;
+  document.getElementById('productPrice').value = p.price || '';
+  document.getElementById('productTag').value = p.tag || '';
+  const prev = document.getElementById('imgPreview');
+  if (p.img) { prev.src = p.img; prev.style.display = 'block'; }
+  else prev.style.display = 'none';
+  document.getElementById('uploadIcon').textContent = p.img ? '✅' : '☁️';
+  document.getElementById('uploadText').innerHTML = p.img
+    ? '圖片已上傳 <span style="color:var(--rose);cursor:pointer;" onclick="openCloudinaryWidget()">（重新上傳）</span>'
+    : '點擊上傳圖片到雲端<br><small style="font-size:11px;opacity:.7;">圖片將儲存於 Cloudinary，所有人都看得到</small>';
+  document.getElementById('uploadStatus').style.display = 'none';
+  renderSizesEditor(p.sizes);
+  switchTab('add', document.querySelectorAll('.admin-tab')[1]);
+}
+
+function deleteProduct(id) {
+  if (!confirm('確定要刪除這個商品嗎？')) return;
+  products = products.filter(x => x.id !== id);
+  saveProducts();
+  renderAdminList();
+  renderProducts();
+  showToast('🗑️ 商品已刪除');
+}
+
+function cancelEdit() {
+  editingId = null;
+  clearForm();
+  switchTab('list', document.querySelectorAll('.admin-tab')[0]);
+}
+
+function clearForm() {
+  ['productName','productDesc','productPrice','productTag'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('productCat').value = '上衣';
+  document.getElementById('imgPreview').style.display = 'none';
+  document.getElementById('uploadIcon').textContent = '☁️';
+  document.getElementById('uploadText').innerHTML = '點擊上傳圖片到雲端<br><small style="font-size:11px;opacity:.7;">圖片將儲存於 Cloudinary，所有人都看得到</small>';
+  document.getElementById('uploadStatus').style.display = 'none';
+  document.getElementById('cloudinaryNotice').style.display = 'none';
+  currentUploadedUrl = '';
+  renderSizesEditor([]);
+}
+
+function renderSizesEditor(selected) {
+  const container = document.getElementById('sizesEditor');
+  container.innerHTML = AVAILABLE_SIZES.map(s => `
+    <button class="size-toggle ${selected.includes(s) ? 'on' : ''}" onclick="toggleSizeBtn(this)">${s}</button>
+  `).join('');
+}
+
+function toggleSizeBtn(btn) {
+  btn.classList.toggle('on');
+}
+
+function saveCloudinarySettings() {
+  cloudName = document.getElementById('cloudName').value.trim();
+  uploadPreset = document.getElementById('uploadPreset').value.trim();
+  localStorage.setItem('cloudName', cloudName);
+  localStorage.setItem('uploadPreset', uploadPreset);
+  const msg = document.getElementById('cloudinaryStatusMsg');
+  if (cloudName && uploadPreset) {
+    msg.style.color = '#05a044';
+    msg.textContent = '✅ 設定已儲存！現在可以上傳圖片了。';
+  } else {
+    msg.style.color = '#856404';
+    msg.textContent = '⚠️ 請填寫兩個欄位才能上傳圖片。';
+  }
+}
+
+function openCloudinaryWidget() {
+  if (!cloudName || !uploadPreset) {
+    document.getElementById('cloudinaryNotice').style.display = 'block';
+    return;
+  }
+  document.getElementById('cloudinaryNotice').style.display = 'none';
+
+  // Use Cloudinary Upload Widget via script tag
+  if (!window.cloudinary) {
+    const script = document.createElement('script');
+    script.src = 'https://upload-widget.cloudinary.com/global/all.js';
+    script.onload = () => launchWidget();
+    document.head.appendChild(script);
+  } else {
+    launchWidget();
+  }
+}
+
+function launchWidget() {
+  const widget = window.cloudinary.createUploadWidget(
+    {
+      cloudName: cloudName,
+      uploadPreset: uploadPreset,
+      sources: ['local', 'camera'],
+      multiple: false,
+      maxFileSize: 5000000,
+      cropping: false,
+      language: 'zh_TW',
+      text: { 'zh_TW': { 'or': '或', 'menu': { 'files': '電腦上傳', 'camera': '相機拍照' } } },
+      styles: {
+        palette: { window: '#FFFFFF', windowBorder: '#E8CCFF', tabIcon: '#FF4F7B',
+          menuIcons: '#6B4F8A', textDark: '#3D2B5C', textLight: '#FFFFFF',
+          link: '#FF4F7B', action: '#FF4F7B', inactiveTabIcon: '#6B4F8A',
+          error: '#F44235', inProgress: '#FF7B54', complete: '#06C755', sourceBg: '#FFF8F0' }
+      }
+    },
+    (error, result) => {
+      if (error) {
+        showToast('❌ 上傳失敗，請確認 Cloud Name 和 Upload Preset 是否正確');
+        return;
+      }
+      if (result.event === 'upload-added') {
+        document.getElementById('uploadStatus').style.display = 'block';
+        document.getElementById('uploadStatus').textContent = '⏳ 上傳中...';
+      }
+      if (result.event === 'success') {
+        const url = result.info.secure_url;
+        currentUploadedUrl = url;
+        const prev = document.getElementById('imgPreview');
+        prev.src = url;
+        prev.style.display = 'block';
+        document.getElementById('uploadStatus').textContent = '✅ 圖片已上傳到雲端！';
+        document.getElementById('uploadIcon').textContent = '✅';
+        document.getElementById('uploadText').innerHTML = '圖片已上傳 <span style="color:var(--rose);cursor:pointer;" onclick="openCloudinaryWidget()">（重新上傳）</span>';
+        showToast('✅ 圖片上傳成功！');
+      }
+    }
+  );
+  widget.open();
+}
+
+function previewImage(input) {
+  // fallback - not used with Cloudinary
+}
+
+
+function saveProduct() {
+  const name = document.getElementById('productName').value.trim();
+  if (!name) { showToast('⚠️ 請輸入商品名稱！'); return; }
+
+  const sizes = Array.from(document.querySelectorAll('#sizesEditor .size-toggle.on')).map(b => b.textContent);
+  if (sizes.length === 0) { showToast('⚠️ 請至少選一個尺寸！'); return; }
+
+  const imgEl = document.getElementById('imgPreview');
+  const img = currentUploadedUrl || (imgEl.style.display !== 'none' ? imgEl.src : '');
+
+  const data = {
+    name,
+    desc: document.getElementById('productDesc').value.trim(),
+    category: document.getElementById('productCat').value,
+    price: document.getElementById('productPrice').value.trim(),
+    tag: document.getElementById('productTag').value.trim(),
+    sizes,
+    img,
+  };
+
+  if (editingId) {
+    const idx = products.findIndex(x => x.id === editingId);
+    products[idx] = { ...products[idx], ...data };
+    showToast('✅ 商品已更新！');
+  } else {
+    products.push({ id: Date.now(), ...data });
+    showToast('✅ 商品已新增！');
+  }
+
+  saveProducts();
+  editingId = null;
+  clearForm();
+  renderProducts();
+  switchTab('list', document.querySelectorAll('.admin-tab')[0]);
+  renderAdminList();
+}
+
+// ────────────── TOAST ──────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function showAbout() {
+  showToast('👼 小天使童裝 — 用愛為孩子選每一件衣裳 💕');
+}
+
+// ────────────── INIT ──────────────
+renderProducts();
+updateCartUI();
+</script>
+</body>
+</html>
